@@ -18,6 +18,9 @@ framework.on("initialized", function () {
   console.log("framework is all fired up! [Press CTRL-C to quit]");
 });
 
+// init variables
+let string_info = 'test info';
+
 // A spawn event is generated when the framework finds a space with your bot in it
 // If actorId is set, it means that user has just added your bot to a new space
 // If not, the framework has discovered your bot in an existing space
@@ -70,6 +73,15 @@ framework.hears('framework', function (bot) {
   console.log("framework command received");
   responded = true;
   bot.say("markdown", "The primary purpose for the [webex-node-bot-framework](https://github.com/jpjpjp/webex-node-bot-framework) was to create a framework based on the [webex-jssdk](https://webex.github.io/webex-js-sdk) which continues to be supported as new features and functionality are added to Webex. This version of the project was designed with two themes in mind: \n\n\n * Mimimize Webex API Calls. The original flint could be quite slow as it attempted to provide bot developers rich details about the space, membership, message and message author. This version eliminates some of that data in the interests of efficiency, (but provides convenience methods to enable bot developers to get this information if it is required)\n * Leverage native Webex data types. The original flint would copy details from the webex objects such as message and person into various flint objects. This version simply attaches the native Webex objects. This increases the framework's efficiency and makes it future proof as new attributes are added to the various webex DTOs ");
+});
+
+/* On mention with command
+write back string from variable
+*/
+framework.hears('test', function (bot) {
+  console.log("test command received");
+  responded = true;
+  bot.say(`string value: ${string_info}`)
 });
 
 /* On mention with command, using other trigger data, can use lite markdown formatting
