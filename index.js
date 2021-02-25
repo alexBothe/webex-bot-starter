@@ -63,9 +63,15 @@ write string to memory
 framework.hears('remember', function (bot, trigger) {
   console.log(`remember command received: ${trigger.text}`);
   responded = true;
-  let to_remember = trigger.text.slice(9, trigger.text.length);
-  stored_info.push(to_remember)
-  bot.say(`string stored: ${to_remember}`)
+  let to_remember = '';
+  if (trigger.text.lenght > 9) {
+    to_remember = trigger.text.slice(9, trigger.text.length);
+    stored_info.push(to_remember);
+    bot.say(`string stored: ${to_remember}`);
+  }
+  else {
+    bot.say('no string to store!');
+  }
 });
 
 /* On mention with command
@@ -74,7 +80,7 @@ write back string from variable
 framework.hears('stored', function (bot) {
   console.log("stored command received");
   responded = true;
-  bot.say(`array value: ${stored_info[stored_info.length-1]}`)
+  bot.say(`array value: ${stored_info[stored_info.length-1]}`);
 });
 
 /* On mention with command
