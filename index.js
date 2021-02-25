@@ -20,6 +20,7 @@ framework.on("initialized", function () {
 
 // init variables
 let string_info = 'test info';
+let stored_info = ['test1'];
 
 // A spawn event is generated when the framework finds a space with your bot in it
 // If actorId is set, it means that user has just added your bot to a new space
@@ -55,6 +56,27 @@ framework.on('spawn', (bot, id, actorId) => {
 //Process incoming messages
 
 let responded = false;
+
+/* On mention with command
+write string to memory
+*/
+framework.hears('remember', function (bot, trigger) {
+  console.log(`remember command received: ${trigger.text}`);
+  responded = true;
+  let to_remember = trigger.text.slice(9, trigger.text.length);
+  stored_info.push(to_remember)
+  bot.say(`string stored: ${to_remember}`)
+});
+
+/* On mention with command
+write back string from variable
+*/
+framework.hears('stored', function (bot) {
+  console.log("stored command received");
+  responded = true;
+  bot.say(`array value: ${stored_info[stored_info.length-1]}`)
+});
+
 /* On mention with command
 ex User enters @botname help, the bot will write back in markdown
 */
@@ -73,15 +95,6 @@ framework.hears('framework', function (bot) {
   console.log("framework command received");
   responded = true;
   bot.say("markdown", "The primary purpose for the [webex-node-bot-framework](https://github.com/jpjpjp/webex-node-bot-framework) was to create a framework based on the [webex-jssdk](https://webex.github.io/webex-js-sdk) which continues to be supported as new features and functionality are added to Webex. This version of the project was designed with two themes in mind: \n\n\n * Mimimize Webex API Calls. The original flint could be quite slow as it attempted to provide bot developers rich details about the space, membership, message and message author. This version eliminates some of that data in the interests of efficiency, (but provides convenience methods to enable bot developers to get this information if it is required)\n * Leverage native Webex data types. The original flint would copy details from the webex objects such as message and person into various flint objects. This version simply attaches the native Webex objects. This increases the framework's efficiency and makes it future proof as new attributes are added to the various webex DTOs ");
-});
-
-/* On mention with command
-write back string from variable
-*/
-framework.hears('test', function (bot) {
-  console.log("test command received");
-  responded = true;
-  bot.say(`string value: ${string_info}`)
 });
 
 /* On mention with command, using other trigger data, can use lite markdown formatting
